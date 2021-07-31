@@ -22,18 +22,27 @@ let lastChecked = undefined
 
 const scheduler = new ToadScheduler()
 
+const setLastChecked = () => {
+  if (!lastChecked) {
+    lastChecked = dayjs().subtract(15, 'minutes')
+  } else {
+    lastChecked = dayjs()
+  }
+}
+
+const mainTask = async () => {
+  setLastChecked()
+  const newSongsSinceLastChecked = await getPlaylistUpdate(lastChecked)
+  await postToDiscord(newSongsSinceLastChecked)
+
+  console.log(`running a task NOW: ${dayjs()}`)
+}
+mainTask()
+
 const task = new AsyncTask(
   'checking for new tracks',
   async () => {
-    if (!lastChecked) {
-      lastChecked = dayjs().subtract(15, 'minutes')
-    } else {
-      lastChecked = dayjs()
-    }
-    const newSongsSinceLastChecked = await getPlaylistUpdate(lastChecked)
-    await postToDiscord(newSongsSinceLastChecked)
-
-    console.log(`running a task NOW: ${dayjs()}`)
+    mainTask()
   },
   err => {
     console.log(`Something went wrong here: ${err.message}`)
