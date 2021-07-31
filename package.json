@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon src/app.js localhost 8080",
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "build": "npm install"
   },
   "author": "xqwtsz@gmail.com",
   "license": "ISC",
