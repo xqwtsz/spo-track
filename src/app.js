@@ -49,6 +49,6 @@ const task = new AsyncTask(
   },
 )
 
-const job = new SimpleIntervalJob({ minutes: 15 }, task)
+const job = new SimpleIntervalJob({ minutes: 1 }, task)
 
 scheduler.addSimpleIntervalJob(job)
