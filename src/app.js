@@ -1,4 +1,12 @@
 require('dotenv').config()
+if (
+  !process.env.CLIENT_INFO ||
+  !process.env.PLAYLIST_ID ||
+  !process.env.DISCORD_WEBHOOK
+) {
+  console.log('❌ ENVIRONMENTAL VARIABLES MISSING ❌ ')
+  return
+}
 const {
   ToadScheduler,
   SimpleIntervalJob,
@@ -10,16 +18,12 @@ const dayjs = require('dayjs')
 const { getPlaylistUpdate } = require('./getPlaylistUpdate')
 const { postToDiscord } = require('./postToDiscord')
 
-if (!process.env.CLIENT_INFO || !process.env.PLAYLIST_ID) {
-  console.log('❌ ENVIRONMENTAL VARIABLES MISSING')
-}
-
 let lastChecked = undefined
 
 const scheduler = new ToadScheduler()
 
 const task = new AsyncTask(
-  'simple task',
+  'checking for new tracks',
   async () => {
     if (!lastChecked) {
       lastChecked = dayjs().subtract(15, 'minutes')
@@ -33,7 +37,6 @@ const task = new AsyncTask(
   },
   err => {
     console.log(`Something went wrong here: ${err.message}`)
-    console.log(`Something went wrong here: ${err}`)
   },
 )
 
