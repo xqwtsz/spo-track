@@ -2,20 +2,21 @@
   "name": "bot-norrin",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon app.js localhost 8080"
+    "start:dev": "nodemon src/app.js localhost 8080",
+    "start": "node src/app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "0.21.1",
+    "dayjs": "^1.10.6",
     "dotenv": "^10.0.0",
-    "spotify-web-api-node": "^5.0.2",
     "toad-scheduler": "^1.5.0"
   },
   "devDependencies": {
-    "nodemon": "1.18.4"
+    "nodemon": "^2.0.12"
   }
 }
