@@ -1,8 +1,11 @@
 const axios = require('axios')
 
-const postToDiscord = async items => {
+const postToDiscord = async (items, playlist) => {
   const url = process.env.DISCORD_WEBHOOK
   const delay = (ms = 2500) => new Promise(r => setTimeout(r, ms))
+
+  const playlistName = playlist.name
+  const playlistLink = playlist.external_urls.spotify
 
   for (let item of items) {
     await delay()
@@ -10,6 +13,7 @@ const postToDiscord = async items => {
     const trackURL = item.track.external_urls.spotify
     const imageURL = item.track.album.images[0].url
     const embedTitle = item.track.name
+    const addedBy = item.added_by.id
 
     const embeds = [
       {
@@ -18,12 +22,13 @@ const postToDiscord = async items => {
           url: trackURL,
           icon_url: imageURL,
         },
-        url: 'https://open.spotify.com/playlist/6V9lTgHvp0dDsuqjBFo8Ma?si=fea6ac8fd8bc4a27',
-        description:
-          'Check out the playlist [here](https://open.spotify.com/playlist/6V9lTgHvp0dDsuqjBFo8Ma?si=fea6ac8fd8bc4a27)!',
+        url: playlistLink,
+        description: `Check out the playlist [here](${playlistLink})!`,
         title: embedTitle,
         url: trackURL,
-        color: 16777215,
+        // insane embeds helper
+        // https://birdie0.github.io/discord-webhooks-guide/structure/embeds.html
+        color: 65280,
         image: {
           url: imageURL,
         },
@@ -31,8 +36,7 @@ const postToDiscord = async items => {
     ]
 
     const postBody = {
-      content:
-        "Hey! I just added a new song to the 'Uuhh baby baby baby' Playlist",
+      content: `${addedBy} just added a new song to the '${playlistName}' playlist :robot:`,
       embeds,
     }
 

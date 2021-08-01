@@ -20,26 +20,28 @@ const dayjs = d.extend(utc)
 const { getPlaylistUpdate } = require('./getPlaylistUpdate')
 const { postToDiscord } = require('./postToDiscord')
 
-let lastChecked = undefined
+let lastChecked = dayjs().subtract(15, 'minutes')
 
 const scheduler = new ToadScheduler()
 
 const setLastChecked = () => {
-  if (!lastChecked) {
-    lastChecked = dayjs().subtract(15, 'minutes')
-  } else {
-    lastChecked = dayjs()
-  }
+  lastChecked = dayjs()
 }
 
 const mainTask = async () => {
-  setLastChecked()
-  const newSongsSinceLastChecked = await getPlaylistUpdate(lastChecked)
-  await postToDiscord(newSongsSinceLastChecked)
-
-  console.log(`lastChecked: ${lastChecked}`)
   console.log(`running a task NOW: ${dayjs()}`)
+  console.log(`lastChecked: ${lastChecked}`)
+  const { newTracksSinceLastChecked, playlist } = await getPlaylistUpdate(
+    lastChecked,
+  )
+  setLastChecked()
+  console.log(`new lastChecked: ${lastChecked}`)
+  if (newTracksSinceLastChecked.length) {
+    await postToDiscord(newTracksSinceLastChecked, playlist)
+  }
 }
+
+// initial run when the app is run
 mainTask()
 
 const task = new AsyncTask(
