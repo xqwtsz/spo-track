@@ -17,8 +17,6 @@ const getPlaylistUpdate = async lastChecked => {
     },
   })
 
-  lastChecked = dayjs().subtract(2, 'days').subtract(10, 'hours')
-
   const newTracksSinceLastChecked = data.tracks.items
     .sort((a, b) => dayjs(b.added_at) - dayjs(a.added_at))
     .filter(item => dayjs(item.added_at) > lastChecked)
