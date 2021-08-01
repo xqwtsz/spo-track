@@ -12,7 +12,9 @@ const {
   SimpleIntervalJob,
   AsyncTask,
 } = require('toad-scheduler')
-const dayjs = require('dayjs')
+const d = require('dayjs')
+const utc = require('dayjs/plugin/utc')
+const dayjs = d.extend(utc)
 
 // -------------
 const { getPlaylistUpdate } = require('./getPlaylistUpdate')
@@ -35,6 +37,7 @@ const mainTask = async () => {
   const newSongsSinceLastChecked = await getPlaylistUpdate(lastChecked)
   await postToDiscord(newSongsSinceLastChecked)
 
+  console.log(`lastChecked: ${lastChecked}`)
   console.log(`running a task NOW: ${dayjs()}`)
 }
 mainTask()

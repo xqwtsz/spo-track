@@ -1,5 +1,7 @@
 const axios = require('axios')
-const dayjs = require('dayjs')
+const d = require('dayjs')
+const utc = require('dayjs/plugin/utc')
+const dayjs = d.extend(utc)
 const { getAccessToken } = require('./getAccessToken')
 
 const getPlaylistUpdate = async lastChecked => {
@@ -14,6 +16,8 @@ const getPlaylistUpdate = async lastChecked => {
       Authorization: `Bearer ${access_token}`,
     },
   })
+
+  lastChecked = dayjs().subtract(2, 'days').subtract(10, 'hours')
 
   const newTracksSinceLastChecked = data.tracks.items
     .sort((a, b) => dayjs(b.added_at) - dayjs(a.added_at))
