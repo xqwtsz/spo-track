@@ -3,13 +3,15 @@
 
 post your whatsitsface latest finds to your whatever discord channel for your online friends to see
 
-you need to register [here](https://developer.spotify.com/) to start the process of adding an "APP" and getting your client id & secret.
+you need to register [here](https://developer.spotify.com/) to start the process of adding an "APP" and getting your client id & secret
+
+step 1, download/clone repo (shocking)
 
 before you start with anything fancy add your:
-- spotify client info (its your CLIENT_ID:CLIENT_SECRET in base64, amazing right? you can find something [here](https://duckduckgo.com/?q=base64+encoder) to do the base64 thingy
+- spotify client info (its your CLIENT_ID:CLIENT_SECRET in base64, amazing right? you can find something [here](https://duckduckgo.com/?q=base64+encoder) to do the base64 thingy)
 - spotify playlist id (if you dont know your id, you can find it when you click share on spotify)
-- discord webhook uri
-- check interval minutes (optional)
+- discord webhook uri (check it out [here](https://duckduckgo.com/?q=how+to+add+discord+webhook))
+- check interval minutes (optional and i hope clear)
 
 to your `.env` like so
 
